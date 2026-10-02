@@ -19,6 +19,11 @@ def load_inventory(filename=INVENTORY_FILE):
         print(f"{filename} is corrupted or empty. Starting with empty inventory.")
         return []
 
+def save_inventory(inventory, filename=INVENTORY_FILE):
+    """Save the inventory list to disk as JSON."""
+    with open(filename, "w") as f:
+        json.dump(inventory, f, indent=4)
+
 def add_product(inventory):
     print("Add New Product")
     product_id = input("Product ID: ").strip()
@@ -132,9 +137,15 @@ def main():
         elif choice == "4":
             search_product(inventory)
         elif choice == "5":
-            print("(Haven't implemented save function yet)\n")
+            print("Saving inventory...")
+            save_inventory(inventory)
+            print("Inventory saved successfully to inventory.json.\n")
         elif choice == "6":
-            print("Exiting (Haven't implemented save function yet).")
+            print("Saving inventory before exit...")
+            save_inventory(inventory)
+            print("Inventory saved successfully.")
+            print("Thank you for using Inventory Management System.")
+            print("Program terminated.")
             break
         else:
             print("Invalid option. Please try again.\n")
