@@ -1,3 +1,24 @@
+import json
+import os
+
+INVENTORY_FILE = "inventory.json"
+
+
+def load_inventory(filename=INVENTORY_FILE):
+    """Load inventory list from disk. Returns a list of product dicts."""
+    if not os.path.exists(filename):
+        print(f"{filename} not found. Starting with empty inventory.")
+        return []
+    try:
+        with open(filename, "r") as f:
+            data = json.load(f)
+            print(f"{filename} found.")
+            print("Inventory loaded successfully.")
+            return data
+    except (json.JSONDecodeError, ValueError):
+        print(f"{filename} is corrupted or empty. Starting with empty inventory.")
+        return []
+
 def add_product(inventory):
     print("Add New Product")
     product_id = input("Product ID: ").strip()
@@ -96,11 +117,7 @@ def main():
     print("INVENTORY MANAGEMENT SYSTEM")
     print("=" * 40)
 
-    inventory = [
-        {"id": "P001", "name": "Laptop", "price": 1200.00, "stock": 15},
-        {"id": "P002", "name": "Mouse", "price": 25.50, "stock": 40},
-        {"id": "P003", "name": "Keyboard", "price": 45.00, "stock": 25},
-    ]
+    inventory = load_inventory()
 
     while True:
         print_menu()
